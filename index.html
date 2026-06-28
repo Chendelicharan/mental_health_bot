@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Mental Wellness Companion</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Floating background particles for alive aesthetic -->
+    <div class="particle-container" id="particle-container"></div>
+
+    <div class="app-container">
+        <!-- Main Header -->
+        <header class="app-header">
+            <div class="header-logo"><i class="fa-solid fa-seedling"></i></div>
+            <h1 class="header-title">Mental Wellness Companion</h1>
+            <p class="header-subtitle">Your safe, non-judgmental space for stress relief, coping tips, and mental well-being support.</p>
+        </header>
+
+        <!-- Two Column Dashboard Layout -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Sidebar Controls -->
+            <aside class="dashboard-sidebar">
+                
+                <!-- Mood Tracker Card -->
+                <div class="glass-card mood-card">
+                    <h3 class="card-title"><i class="fa-solid fa-heart-pulse"></i> How are you feeling?</h3>
+                    <p class="card-desc">Select a mood to update your companion's theme.</p>
+                    <div class="mood-selector">
+                        <button class="mood-btn" data-mood="calm" title="Calm">
+                            <span class="mood-emoji">🧘</span>
+                            <span class="mood-label">Calm</span>
+                        </button>
+                        <button class="mood-btn" data-mood="stressed" title="Stressed">
+                            <span class="mood-emoji">😫</span>
+                            <span class="mood-label">Stressed</span>
+                        </button>
+                        <button class="mood-btn" data-mood="sad" title="Sad">
+                            <span class="mood-emoji">😔</span>
+                            <span class="mood-label">Sad</span>
+                        </button>
+                        <button class="mood-btn" data-mood="tired" title="Tired">
+                            <span class="mood-emoji">😴</span>
+                            <span class="mood-label">Tired</span>
+                        </button>
+                        <button class="mood-btn" data-mood="happy" title="Happy">
+                            <span class="mood-emoji">😊</span>
+                            <span class="mood-label">Joyful</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Guided Breathing Card -->
+                <div class="glass-card breathing-card">
+                    <h3 class="card-title"><i class="fa-solid fa-wind"></i> Guided Breathing</h3>
+                    <p class="card-desc">Calm your nervous system using the 4-7-8 method.</p>
+                    <div class="breathing-session">
+                        <div class="breathing-circle-container">
+                            <div class="breathing-circle" id="breathing-circle"></div>
+                            <div class="breathing-timer-text" id="breathing-timer-text">Click Start</div>
+                        </div>
+                        <div class="breathing-instruction" id="breathing-instruction">Inhale peace, exhale tension.</div>
+                        <button class="primary-btn" id="breathing-toggle-btn">
+                            <i class="fa-solid fa-play"></i> Start Session
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Settings & API Override Card -->
+                <div class="glass-card settings-card">
+                    <h3 class="card-title"><i class="fa-solid fa-sliders"></i> AI Settings</h3>
+                    <div class="settings-toggle-container">
+                        <label class="switch">
+                            <input type="checkbox" id="ai-mode-toggle">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="settings-label">Advanced AI Mode (Gemini)</span>
+                    </div>
+                    <div class="api-key-input-container hidden" id="api-key-container">
+                        <p class="card-desc">Enter your Gemini API key to activate generative conversations.</p>
+                        <div class="input-with-icon" style="margin-bottom: 0.75rem;">
+                            <i class="fa-solid fa-key input-icon"></i>
+                            <input type="password" id="gemini-api-key" placeholder="AQ.Ab8RN6...">
+                        </div>
+                        <div class="input-with-icon" style="margin-bottom: 0.5rem;">
+                            <i class="fa-solid fa-brain input-icon"></i>
+                            <select id="gemini-model" style="width: 100%; background: var(--input-bg); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 0.65rem 0.75rem 0.65rem 2.25rem; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 0.88rem; outline: none; cursor: pointer;">
+                                <option value="gemini-3.5-flash" selected>Gemini 3.5 Flash (Recommended)</option>
+                                <option value="gemini-3.1-flash-lite">Gemini 3.1 Flash-Lite (Fast)</option>
+                                <option value="gemini-3.1-pro">Gemini 3.1 Pro (Advanced)</option>
+                            </select>
+                        </div>
+                        <p class="api-help-text">Get a free key from <a href="https://aistudio.google.com/" target="_blank">Google AI Studio</a>.</p>
+                    </div>
+                </div>
+
+                <!-- Self-Care Tip Card -->
+                <div class="glass-card tip-card">
+                    <h4 class="tip-header"><i class="fa-regular fa-lightbulb"></i> Daily Self-Care Tip</h4>
+                    <p class="tip-content" id="daily-tip">"Take 3 minutes right now to close your eyes, relax your shoulders, and let go of any tension in your jaw."</p>
+                </div>
+
+            </aside>
+
+            <!-- Right Main Chat Panel -->
+            <main class="dashboard-chat-panel">
+                <div class="chat-wrapper">
+                    <!-- Chat Header with Status Indicators -->
+                    <div class="chat-header">
+                        <div class="bot-info">
+                            <span class="bot-avatar"><i class="fa-solid fa-seedling"></i></span>
+                            <div>
+                                <span class="bot-name">Wellness Assistant</span>
+                                <span class="bot-status" id="bot-status"><span class="status-dot"></span> Empathetic Mode</span>
+                            </div>
+                        </div>
+                        
+                        <!-- State Context Toggles (Stress & Energy) -->
+                        <div class="chat-context-controls">
+                            <div class="context-group">
+                                <label for="stress-level"><i class="fa-solid fa-temperature-three-quarters"></i> Stress:</label>
+                                <select id="stress-level">
+                                    <option value="Low">Low</option>
+                                    <option value="Moderate" selected>Moderate</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div class="context-group">
+                                <label for="energy-level"><i class="fa-solid fa-bolt"></i> Energy:</label>
+                                <select id="energy-level">
+                                    <option value="Low">Low</option>
+                                    <option value="Moderate" selected>Moderate</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Log -->
+                    <div class="chat-messages-log" id="chat-messages-log">
+                        <!-- Messages will be injected by JavaScript -->
+                    </div>
+
+                    <!-- Chat Input Controls -->
+                    <div class="chat-input-area">
+                        <form id="chat-form">
+                            <input type="text" id="chat-input" placeholder="How are you feeling today? Describe your thoughts or feelings..." required autocomplete="off">
+                            <button type="submit" class="send-btn" id="send-btn" title="Send message">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Script file -->
+    <script src="app.js"></script>
+</body>
+</html>
